@@ -1,0 +1,42 @@
+.home{
+
+    .menu-list{
+        width: 180px;
+        position: fixed;
+        height: 100%;
+        .ant-menu{
+            height: 100%;
+        }
+    }
+    .main-app{
+        transition: all .3s;
+        margin-left:180px ;
+        height: 50px;
+        padding: 0 20px;
+        line-height: 50px;
+        margin-right: 10px;
+        border-bottom:1px solid #999 ;
+        &.menu-unfold{
+            margin-left: 80px;
+           
+        }
+        .ant-breadcrumb{
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .login{
+           text-align: center; 
+           float: right;
+           cursor: pointer;
+           li:not(:first-child){
+               display: none;
+           }
+           &:hover{
+             li{
+                 display: block;
+             }
+        }
+        }
+        
+    }
+}
