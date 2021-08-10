@@ -68,7 +68,7 @@ const columns = [
   },
 ];
 
-
+import {mapState} from 'vuex';
 export default {
   props:['data'],
   data() {
@@ -87,7 +87,24 @@ export default {
   },
  
   computed: {
-    // list() {
+    ...mapState(['reduce']),
+    tableData(){//映射接收夫类数据进行处理
+    if(this.reduce){
+      return this.reduce.map(ele=>{
+        return {
+          ...ele,
+          key:ele.id
+        }
+      })
+    }
+      return this.data.map(ele=>{
+        return {
+          ...ele,
+          key:ele.id
+        }
+      })
+    }
+     // list() {
       
       //  arr = this.data.filter(ele =>{
       //    return !this.$store.state.serchInfo.kind ||ele.tags === this.$store.state.serchInfo.kind ;
@@ -103,16 +120,11 @@ export default {
       
     //   return arr;
     // },
-    tableData(){//映射接收夫类数据进行处理
-      return this.data.map(ele=>{
-        return {
-          ...ele,
-          key:ele.id
-        }
-      })
-    }
+    
   },
+  
 };
+
 
 </script>
 <style scoped>

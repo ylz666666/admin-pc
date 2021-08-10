@@ -10,6 +10,7 @@ export default new Vuex.Store({
     user:userMain.getCookies(),
     list:[],
     keytime:new Date().getTime(),
+    reduce:null,
    
   },
   getters:{
@@ -18,9 +19,15 @@ export default new Vuex.Store({
     },
     keytime(state){
       return state.keytime ;
+    },
+    reduce(state){  
+      return state.reduce;
     }
   },
   mutations: {
+    setReduce(state,datas){
+      state.reduce = datas;
+    },
     toggleCollapsed(state) {
       state.collapsed = !state.collapsed;
     },
@@ -39,6 +46,9 @@ export default new Vuex.Store({
      }
   },
   actions: {
+    setReduce({commit},datas){
+      commit("setReduce",datas);
+    },
     toggleCollapsed({commit}){
       commit('toggleCollapsed') ;
     },

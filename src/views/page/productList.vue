@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <serch @submit="getkind" :list="list" />
+    <serch @submit="getkind" :data="data" :list="list"/>
     <div ><a-button class="btn-add"><router-link  class="sb" :to="{name:'ProductAdd'}">新增商品</router-link></a-button></div>
     <froms :data="data" @edit="turns" @remove='dele' />
   </div>
@@ -22,8 +22,8 @@ export default {
     return {
       info: {},
       data: [],
-      list: [],
       mapKind: {},
+      list:[],
     };
   },
   methods: {
@@ -35,7 +35,6 @@ export default {
     // },
   
     turns(recond){
-      
        this.$router.push({
         name:'Productedit',
         params:{
@@ -53,7 +52,7 @@ export default {
         cancelText: '返回',
         onOk:()=>{
           Stores.removeStore(recond).then(res =>{
-            console.log(res) ;
+  
             this.getDatas();
           })
             
@@ -80,13 +79,13 @@ export default {
             mylive: this.mapKind[ele.category],
           };
         });
+        
       });
     },
     getproduct() {
-      getProduct().then((res) => {
-        this.list = res.data;
-        console.log(666,this.list)
+      getProduct().then((res) => {//获取商品列表数据
         res.data.forEach((element) => {
+          this.list = res.data;
           this.mapKind[element.id] = element.name;
         });
       });
@@ -95,7 +94,6 @@ export default {
   created() {
     this.getproduct();
     this.getDatas();
-    
     // Stores.getStore({
     //   ...this.info,
     // }).then((res) => {

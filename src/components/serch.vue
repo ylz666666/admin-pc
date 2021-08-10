@@ -19,10 +19,11 @@
         placeholder="请选择你的商品类目"
         style="width: 120px"
         @change="handleChange"
-         allowClear
+        allowClear
       >
-        <a-select-option v-for='li in list' :key='li.name'  :value="li.name"> {{li.name}} </a-select-option>
-       
+        <a-select-option v-for="li in lists" :key="li.name" :value="li.name">
+          {{ li.name }}
+        </a-select-option>
       </a-select>
     </a-form-model-item>
 
@@ -32,42 +33,53 @@
   </a-form-model>
 </template>
 <script>
-
-
+import { getProduct } from "@/api/product.js";
 export default {
-  props:['list'],
+  props: ["data", "list"],
   data() {
     return {
-      
       serchInfo: {
-       searchWord:'',
-       category:0
+        searchWord: "",
+        category: 0,
       },
     };
   },
   methods: {
     handleSubmit(e) {
-      this.$emit('submit',this.serchInfo);
+      this.$emit("submit", this.serchInfo);
+      let datas = this.data;
+      if (this.serchInfo.category) {
+        datas = datas.filter(
+          (item) => item.category == this.serchInfo.category
+        );
+      }
+      if (this.serchInfo.searchWord) {
+        datas = datas.filter(
+          (item) =>
+            item.desc.indexOf(this.serchInfo.searchWord) >= 0 ||
+            item.title.indexOf(this.serchInfo.searchWord) >= 0
+        );
+      }
+      this.$store.dispatch("setReduce", datas);
     },
 
     handleChange(val) {
-      if(!val){
-        return
+      if (!val) {
+        return;
       }
-     
-      this.list.filter(ele =>{
-        if(ele.name === val){
-          this.serchInfo.category = ele.id ;
-        } 
-      })
-      
-      
-        
+      this.list.filter((ele) => {
+        if (ele.name === val) {
+          this.serchInfo.category = ele.id;
+        }
+      });
     },
   },
-  created(){
-    console.log(this.list);
-  }
-  
+  computed: {
+    lists() {
+      return this.list.filter((item) => {
+        return item.name;
+      });
+    },
+  },
 };
 </script>
